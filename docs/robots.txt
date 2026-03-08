@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ixonblitz-matos.github.io/local-growth-autopilot/sitemap.xml
