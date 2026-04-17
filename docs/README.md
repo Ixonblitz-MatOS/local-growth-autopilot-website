@@ -1,34 +1,47 @@
-# GitHub Pages Website (Static)
+# Gavell Intelligence (New Site)
 
-This `docs/` folder is a ready-to-publish static website for Stripe business verification.
+This is the new Gavell Intelligence stack:
 
-## Publish steps
-1. Push your repo to GitHub.
-2. In GitHub: `Settings` -> `Pages`.
-3. Under `Build and deployment`, choose:
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/docs`
-4. Save and wait for deployment.
+- Frontend: React + Vite (this folder root)
+- Backend API: Flask + SQLAlchemy (`./backend`)
+- Database: PostgreSQL on Render (SQLite fallback for local dev)
 
-Your public URL will be:
-- `https://ixonblitz-matos.github.io/local-growth-autopilot/`
+## Local Run
 
-## Files included
-- `index.html`
-- `features.html`
-- `pricing.html`
-- `about.html`
-- `contact.html`
-- `privacy.html`
-- `terms.html`
-- `security.html`
-- `styles.css`
-- `robots.txt`
-- `sitemap.xml`
-- `assets/` (logo and favicon)
+### 1. Start backend (`127.0.0.1:8000`)
 
-## Must update before submitting to Stripe
-1. Replace placeholder emails in `contact.html`, `privacy.html`, `terms.html`, `security.html`.
-2. Replace login/register links in `index.html` with your real app URL.
-3. Sitemap and robots are already set for https://ixonblitz-matos.github.io/local-growth-autopilot/.
+```powershell
+cd backend
+python -m pip install -r requirements.txt
+copy .env.example .env
+python main.py
+```
+
+### 2. Start frontend (`127.0.0.1:5173`)
+
+```powershell
+cd ..
+npm install
+copy .env.example .env
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+### 3. Access
+
+- Site: `http://127.0.0.1:5173`
+- Admin login: `http://127.0.0.1:5173/admin/login`
+
+Default admin login if unchanged:
+
+- Email: `admin@gavellintelligence.local`
+- Password: `ChangeThisPassword123!`
+
+## Render
+
+Use `render.yaml` in this folder to create:
+
+- `gavell-intelligence-api` (Python web service)
+- `gavell-intelligence` (static frontend)
+- `gavell-intelligence-db` (PostgreSQL)
+
+Update `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `CORS_ORIGINS` in Render before going live.
