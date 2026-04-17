@@ -133,7 +133,11 @@ CORS(
     app,
     supports_credentials=True,
     origins=parse_cors_origins(),
-    resources={r"/api/*": {"origins": parse_cors_origins()}, r"/health": {"origins": parse_cors_origins()}},
+    resources={
+        r"/api/.*": {"origins": parse_cors_origins()},
+        r"/health": {"origins": parse_cors_origins()},
+        r"/": {"origins": parse_cors_origins()},
+    },
 )
 
 

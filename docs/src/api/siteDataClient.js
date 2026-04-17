@@ -31,12 +31,15 @@ const parseResponseBody = async (response) => {
 };
 
 const apiRequest = async (path, { method = 'GET', body, query } = {}) => {
+  const headers = {};
+  if (body) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   const response = await fetch(buildUrl(path, query), {
     method,
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: body ? JSON.stringify(body) : undefined,
   });
 
