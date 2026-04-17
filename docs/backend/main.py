@@ -140,6 +140,33 @@ CORS(
     },
 )
 
+ALLOWED_CORS_ORIGINS = set(parse_cors_origins())
+
+
+def is_allowed_origin(origin: str | None) -> bool:
+    if not origin:
+        return False
+    return origin.strip() in ALLOWED_CORS_ORIGINS
+
+
+@app.before_request
+def handle_api_preflight():
+    if request.method == "OPTIONS" and request.path.startswith("/api/"):
+        return ("", 204)
+
+
+@app.after_request
+def apply_explicit_cors_headers(response):
+    if request.path.startswith("/api/"):
+        origin = request.headers.get("Origin")
+        if is_allowed_origin(origin):
+            response.headers["Access-Control-Allow-Origin"] = origin.strip()
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+            response.headers["Access-Control-Allow-Methods"] = "GET,POST,PATCH,DELETE,OPTIONS"
+            response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+            response.headers["Vary"] = "Origin"
+    return response
+
 
 failed_login_attempts: dict[str, list[datetime]] = {}
 login_lockouts: dict[str, datetime] = {}
